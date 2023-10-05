@@ -1,0 +1,136 @@
+{%- comment -%}
+assign values for myPublishId, carouselMessage, mybuttonMessage and myBgColor 
+as block or section schema 
+{%- endcomment -%}
+
+<script>
+function toggleVisibilityBasedOnContainer() {
+  var tolstoyCarouselContainer = document.querySelector('.tolstoy-carousel-container');
+  var bbserElements = document.querySelectorAll('.bbser-3');
+
+  if (tolstoyCarouselContainer) {
+    bbserElements.forEach(function(element) {
+      element.style.display = 'flex';
+    });
+  } else {
+    bbserElements.forEach(function(element) {
+      element.style.display = 'none';
+    });
+  }
+}
+
+toggleVisibilityBasedOnContainer();
+
+var observer = new MutationObserver(function(mutationsList) {
+  for (var mutation of mutationsList) {
+    if (mutation.type === 'childList') {
+      toggleVisibilityBasedOnContainer();
+    }
+  }
+});
+
+observer.observe(document.body, { childList: true, subtree: true });
+
+  
+  function carouselClick() {
+  document.querySelector('.tolstoy-carousel-tile-container video').click()
+    }
+
+ 
+</script>
+
+<div class="bbser-3">
+    <div class="video-box bbser-child">
+        <tolstoy-carousel
+            data-tags="{% for tag in product.tags -%}{{ tag }},{%- endfor %}"
+            class="tolstoy-carousel"
+            id="{{ myPublishId }}"
+            data-publish-id="{{ myPublishId }}"
+            data-product-id="{{ product.id }}">
+        </tolstoy-carousel>
+    </div>
+    <div class="txt-description bbser-child">
+        <h4>{{ carouselMessage }} {{ product.title }}</h4>
+        <button onclick="carouselClick();" class="bb3-button">{{ mybuttonMessage }}</button>
+    </div>
+</div>
+
+<style>
+.bbser-3 {
+    display: flex;
+    background: {{ myBgColor }};
+    align-items: center;
+    border-radius: 10px;
+    border: 1px dashed black;
+}
+
+.bbser-child {
+    flex-basis: 100%;
+}
+
+.bbser-3 .txt-description {
+    padding: 0px 15px;
+    margin: 0 auto;
+}
+
+.txt-description h4 {
+    margin-bottom: 5px;
+}
+
+.bbser-3 .txt-description h4,
+.bbser-3 .txt-description span {
+    font-size: 1.2rem;
+}
+
+.video-box {
+    padding: 0px;
+    border-right: 1px dashed black;
+}
+
+.tolstoy-carousel-arrow-button-container {
+    display: none !important;
+}
+
+.tolstoy-carousel-container {
+    width: 100% !important;
+    margin: 0 auto;
+}
+
+.tolstoy-play-button-container {
+    width: 45px !important;
+    height: 45px !important;
+}
+
+.bbser-3 .tolstoy-carousel-video-container {
+    aspect-ratio: 16/9;
+    border-top: none !important;
+    border-bottom: none !important;
+}
+
+.bbser-3 .tolstoy-carousel-video {
+    aspect-ratio: 16/9 !important;
+}
+
+.tolstoy-carousel-video-container,
+.tolstoy-carousel-video-container video {
+    border-radius: 10px 0px 0px 10px !important;
+}
+
+.tolstoy-carousel-tile-container {
+    flex-direction: row !important;
+}
+
+.tolstoy-carousel-videos-container {
+    grid-template-columns: repeat(1, 100%) !important;
+}
+
+.bb3-button {
+    width: 100%;
+    border-radius: 20px;
+    background: white;
+    text-align: center;
+    border: 1px solid black;
+    padding: 5px 0;
+    margin: 5px auto;
+}
+</style>
